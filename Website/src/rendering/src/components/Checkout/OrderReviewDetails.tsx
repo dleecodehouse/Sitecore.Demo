@@ -8,7 +8,10 @@ import LineItemList from './LineItemList';
 import { logOrderCheckout } from '../../services/CdpService';
 import mapProductsForDiscover from '../../helpers/discover/ProductMapper';
 import mapUserForDiscover from '../../helpers/discover/UserMapper';
-import { getCreditCardExpirationDate } from '../../helpers/DateHelper';
+import {
+  calculateEstimatedDeliveryDate,
+  getCreditCardExpirationDate,
+} from '../../helpers/DateHelper';
 
 const OrderReviewDetails = (): JSX.Element => {
   const router = useRouter();
@@ -26,7 +29,10 @@ const OrderReviewDetails = (): JSX.Element => {
 
   const deliveryPanelContent = (
     <>
-      <p>Delivery type: Pick up from store</p>
+      <p>Delivery type: {deliveryMethod?.Name}</p>
+      <p>
+        Estimated delivery: {calculateEstimatedDeliveryDate(deliveryMethod?.EstimatedTransitDays)}
+      </p>
       <div>
         <p className="title">Address:</p>
         <p>
