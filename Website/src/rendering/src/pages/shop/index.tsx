@@ -8,7 +8,7 @@ const Shop = (): JSX.Element => {
   return (
     <>
       <CategoriesList
-        title="Welcome to PLAY! SHOP"
+        title="Welcome to OrderCloud Demo"
         subtitle="Shop Trending Categories:"
         theme="orange"
       />
@@ -25,7 +25,7 @@ Shop.getLayout = function getLayout(page: ReactElement) {
   return (
     <ShopLayout>
       <Head>
-        <title>PLAY! SHOP</title>
+        <title>Zip OrderCloud Demo</title>
       </Head>
 
       {page}

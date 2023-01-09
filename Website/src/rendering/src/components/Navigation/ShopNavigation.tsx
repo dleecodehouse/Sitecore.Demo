@@ -64,7 +64,7 @@ const ShopNavigation = (props: ShopNavigationProps): JSX.Element => {
         <div className="logo-container">
           <Link href="/shop">
             <a className="logo-link">
-              <img src="/assets/img/shop/play-shop-logo.svg" alt="PLAY! SHOP" />
+              <img src="/assets/img/shop/oc-demo-logo.svg" alt="OrderCloud Demo" />
             </a>
           </Link>
         </div>
