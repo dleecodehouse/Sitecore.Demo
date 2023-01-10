@@ -29,7 +29,6 @@ import {
   COOKIES_ANON_ORDER_PROMOS,
   COOKIES_ANON_USER_TOKEN,
 } from '../../constants/cookies';
-import { Token } from 'graphql';
 
 export interface RecentOrder {
   order: RequiredDeep<DOrder>;
@@ -91,11 +90,15 @@ export const updateCreditCardPayment = createOcAsyncThunk<
   console.log('token: ' + token);
   console.log(payment);
 
-  const response = await axios.put<RequiredDeep<DPayment>[]>(
+  let responseData = null;
+
+  await axios.put<RequiredDeep<DPayment>[]>(
     `/api/checkout/update-payments/${order.ID}`,
     { Payments: [payment] },
     { headers: { Authorization: `Bearer ${token}` } }
-  ).catch(function(err) {
+  )
+  .then(res => responseData = res.data)
+  .catch(function(err) {
     if (err.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
@@ -113,9 +116,7 @@ export const updateCreditCardPayment = createOcAsyncThunk<
     }
     console.log(err.config);
   });
-  console.log('axios data');
-  console.log(response);
-  return response.data;
+  return responseData;
 });
 
 export const retrievePayments = createOcAsyncThunk<RequiredDeep<DPayment>[], string>(
