@@ -28,7 +28,7 @@ const OrderReviewDetails = (): JSX.Element => {
     <>
       <p>Delivery type: Pick up from store</p>
       <div>
-        <p className="title">Address:</p>
+        <p className="title">Store Address:</p>
         <p>
           {shippingAddress?.FirstName} {shippingAddress?.LastName}
         </p>
