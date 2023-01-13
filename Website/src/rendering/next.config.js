@@ -163,6 +163,16 @@ const nextConfig = {
   // Enable React Strict Mode
   reactStrictMode: true,
 
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/shop',
+        permanent: true,
+      }
+    ]
+  },
+
   async rewrites() {
     // When in connected mode we want to proxy Sitecore paths off to Sitecore
     return [
