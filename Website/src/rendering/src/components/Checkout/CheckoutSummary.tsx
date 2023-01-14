@@ -7,6 +7,7 @@ type CheckoutSummaryProps = {
   buttonText: string;
   onClick: () => Promise<unknown>;
   shouldEnableButton?: () => boolean;
+  debug?: boolean;
 };
 
 const CheckoutSummary = (props: CheckoutSummaryProps): JSX.Element => {
@@ -43,17 +44,35 @@ const CheckoutSummary = (props: CheckoutSummaryProps): JSX.Element => {
     if (!order?.ID || order?.LineItemCount === 0) {
       return false;
     }
+    if (props.debug) {
+      console.log('[debug] isShipOrder: ' + isShipOrder);
+      console.log('[debug] selectedShipMethodId: ' + selectedShipMethodId);
+    }
     if (isShipOrder && !selectedShipMethodId) {
       return false;
+    }
+    if (props.debug) {
+      console.log('[debug] shipping method is ok');
     }
     if (!shippingAddress?.Country) {
       return false;
     }
+    if (props.debug) {
+      console.log('[debug] shipping country is ok');
+    }
     if (!order?.BillingAddress?.Country) {
       return false;
     }
+    if (props.debug) {
+      console.log('[debug billing country is ok]');
+      console.log('[debug] payments: ');
+      console.log(payments);
+    }
     if (!payments?.length || !payments[0] || !payments[0].ID || !payments[0].Accepted) {
       return false;
+    }
+    if (props.debug) {
+      console.log('[debug] payment method is ok');
     }
     if (props.shouldEnableButton) {
       return props.shouldEnableButton();

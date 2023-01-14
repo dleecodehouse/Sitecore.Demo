@@ -44,14 +44,14 @@ const AccountPopup = ({ onNavigatingAway }: AccountPopupProps): JSX.Element => {
     let greeting = <h3>Greetings</h3>;
     if (user?.FirstName || user?.LastName) {
       greeting = (
-        <>
-          <h3>
-            Greetings,{' '}
-            <Link href="/account">
-              <a>{user?.Username}</a>
-            </Link>
-          </h3>
-        </>
+        <h3>
+          Greetings,{' '}
+          <Link href="/account">
+            <a>
+              {user?.FirstName} {user?.LastName}
+            </a>
+          </Link>
+        </h3>
       );
     }
     return greeting;

@@ -12,11 +12,17 @@ import { CatalystBaseError, withOcErrorHandler, withOcUserAuth } from '@orderclo
  * the special role of OrderAdmin which is granted to our middleware client but not buyer users (for security reasons)
  */
 const routeHandler: NextApiHandler<RequiredDeep<DPayment>[]> = async (request, response) => {
+  console.log('[debug] update-payments entered');
   await initializeOrderCloudMiddlewareClient();
+  console.log('[debug] update-payments - middleware client initialised');
 
   const { orderId } = request.query as { orderId: string };
   const requestedPayments = request.body?.Payments as RequiredDeep<DPayment>[];
   const userToken = getUserToken(request);
+
+  console.log('[debug] update-payments - userToken: ' + userToken);
+  console.log('[debug] requestedPayments:');
+  console.log(requestedPayments);
 
   if (!orderId) {
     throw new CatalystBaseError('Payments.MissingOrderId', 'Missing required parameter orderId');

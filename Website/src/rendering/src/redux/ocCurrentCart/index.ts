@@ -87,7 +87,7 @@ export const updateCreditCardPayment = createOcAsyncThunk<
   };
 
   const token = Tokens.GetAccessToken();
-  console.log('token: ' + token);
+  console.log('[debug] updateCreditCardPayment - token: ' + token);
   console.log(payment);
 
   let responseData = null;
@@ -99,6 +99,7 @@ export const updateCreditCardPayment = createOcAsyncThunk<
   )
   .then(res => responseData = res.data)
   .catch(function(err) {
+    console.log('[debug] error while calling /api/checkout/update-payments/' + order.ID + ' - token: ' + token);
     if (err.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx

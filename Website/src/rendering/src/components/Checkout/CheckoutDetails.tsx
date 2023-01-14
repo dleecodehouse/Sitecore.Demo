@@ -17,6 +17,11 @@ import { useAppDispatch } from '../../redux/store';
 import { updateUser } from '../../redux/ocUser';
 import { patchOrder } from '../../redux/ocCurrentCart';
 import { DeliveryTypes } from '../../models/ordercloud/DOrder';
+import useOcUser from '../../hooks/useOcUser';
+
+type CheckoutDetailsProps = {
+  debug?: boolean;
+};
 
 const CheckoutDetailsSkeleton = (): JSX.Element => {
   const skeletonCount = 5;
@@ -31,16 +36,24 @@ const CheckoutDetailsSkeleton = (): JSX.Element => {
   );
 };
 
-const CheckoutDetails = (): JSX.Element => {
+const CheckoutDetails = (props: CheckoutDetailsProps): JSX.Element => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { order, initialized } = useOcCurrentCart();
   const { isAnonymous } = useOcAuth();
+  const { user } = useOcUser();
 
-  const [userEmail, setUserEmail] = useState('');
+  const [userEmail, setUserEmail] = useState(user?.Email);
+
+  if (props.debug) {
+    console.log('[debug] userEmail: ' + userEmail);
+  }
 
   const setEmail = useCallback(
     (email: string) => {
+      if (props.debug) {
+        console.log('[debug] set user email: ' + email);
+      }
       // Update the user email and patch the order
       dispatch(updateUser({ Email: email }));
       dispatch(patchOrder({ FromUser: { Email: email } }));
@@ -53,8 +66,15 @@ const CheckoutDetails = (): JSX.Element => {
   useEffect(() => {
     const getEmail = async () => {
       const email = await getGuestEmail();
+      if (props.debug) {
+        console.log('[debug] CheckoutDetails - getEmail - getGuestEmail: ' + email);
+      }
       if (email) {
         setEmail(email);
+      } else {
+        if (props.debug) {
+          console.log('[debug] CheckoutDetails - getEmail - guest email not found');
+        }
       }
     };
 
@@ -69,6 +89,11 @@ const CheckoutDetails = (): JSX.Element => {
   };
 
   const shouldEnableButton = () => !isAnonymous || !!userEmail;
+  if (props.debug) {
+    console.log('[debug] !isAnonymous: ' + !isAnonymous);
+    console.log('[debug] !!userEmail: ' + !!userEmail);
+    console.log('[debug] shouldEnableButton: ' + shouldEnableButton());
+  }
 
   const checkoutTitle = isAnonymous ? 'Guest checkout' : 'Checkout';
   const userDetailsPanel = isAnonymous && (

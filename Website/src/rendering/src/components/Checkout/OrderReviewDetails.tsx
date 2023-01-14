@@ -8,7 +8,10 @@ import LineItemList from './LineItemList';
 import { logOrderCheckout } from '../../services/CdpService';
 import mapProductsForDiscover from '../../helpers/discover/ProductMapper';
 import mapUserForDiscover from '../../helpers/discover/UserMapper';
-import { getCreditCardExpirationDate } from '../../helpers/DateHelper';
+import {
+  calculateEstimatedDeliveryDate,
+  getCreditCardExpirationDate,
+} from '../../helpers/DateHelper';
 
 const OrderReviewDetails = (): JSX.Element => {
   const router = useRouter();
@@ -16,19 +19,29 @@ const OrderReviewDetails = (): JSX.Element => {
   const { order, lineItems, shipEstimateResponse, shippingAddress, payments } = useOcCurrentCart();
 
   const shipEstimate = shipEstimateResponse?.ShipEstimates?.[0];
+  const deliveryType = order?.xp?.DeliveryType;
   const deliveryMethod = shipEstimate?.ShipMethods?.filter(
     (method) => method.ID === shipEstimate.SelectedShipMethodID
   )?.[0];
 
-  if (deliveryMethod) {
-    // nothing
+  if (!deliveryMethod) {
+    console.log('deliveryMethod is not specified');
   }
 
   const deliveryPanelContent = (
     <>
-      <p>Delivery type: Pick up from store</p>
+      <p>Delivery type: {deliveryType}</p>
+      {deliveryType == 'Ship' && deliveryMethod && (
+        <>
+          <p>Delivery method: {deliveryMethod.Name}</p>
+          <p>
+            Estimated delivery:
+            {calculateEstimatedDeliveryDate(deliveryMethod.EstimatedTransitDays)}
+          </p>
+        </>
+      )}
       <div>
-        <p className="title">Store Address:</p>
+        <p className="title">{deliveryType == 'Ship' ? 'Shipping' : 'Pick-up'} Address:</p>
         <p>
           {shippingAddress?.FirstName} {shippingAddress?.LastName}
         </p>
@@ -128,7 +141,11 @@ const OrderReviewDetails = (): JSX.Element => {
             <div className="panel-body">{paymentPanelContent}</div>
           </div>
           {commentsPanelContent}
-          <CheckoutSummary buttonText="Place your order" onClick={handleSubmitOrder} />
+          <CheckoutSummary
+            buttonText="Place your order"
+            debug={false}
+            onClick={handleSubmitOrder}
+          />
         </div>
       </div>
     </div>
