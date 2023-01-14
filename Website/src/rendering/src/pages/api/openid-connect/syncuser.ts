@@ -31,8 +31,15 @@ const routeHandler: NextApiHandler<OpenIdConnectResponse> = async (request, resp
   // the ordercloud user associated with the user in auth0
   const existingUser = payload.ExistingUser;
 
+  console.log('syncuser called');
+  console.log('payload');
+  console.log(payload);
+
   // The claims (user details) from parsing auth0's ID token, claims here vary by provider
   const claims = parseJwt(payload.TokenResponse.id_token) as Auth0Claims;
+
+  console.log('claims');
+  console.log(claims);
 
   // we should sync the user if Username, Email, FirstName, or LastName have changed
   const shouldSyncUser =

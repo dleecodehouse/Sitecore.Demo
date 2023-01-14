@@ -37,6 +37,11 @@ const routeHandler: NextApiHandler<OpenIdConnectResponse> = async (request, resp
     // The claims (user details) from parsing auth0's ID token, claims here vary by provider
     const claims = parseJwt(payload.TokenResponse.id_token) as Auth0Claims;
 
+    console.log('createuser payload');
+    console.log(payload);
+    console.log('claims');
+    console.log(claims);
+
     const usersList = await Users.List(
       PROFILED_BUYER_ID,
       {
