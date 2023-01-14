@@ -42,11 +42,13 @@ const routeHandler: NextApiHandler<OpenIdConnectResponse> = async (request, resp
   console.log(claims);
 
   // we should sync the user if Username, Email, FirstName, or LastName have changed
-  const shouldSyncUser =
+  const shouldSyncUser = false;
+  /*
     existingUser.Username !== claims.email || // claims.email is guaranteed
     existingUser.Email !== claims.email || // claims.email is guaranteed
     (existingUser.FirstName !== claims.given_name && existingUser.FirstName !== 'NOT_AVAILABLE') ||
     (existingUser.LastName !== claims.family_name && existingUser.LastName !== 'NOT_AVAILABLE');
+  */
 
   // if there is no reason to sync the user then simply return a success response
   if (!shouldSyncUser) {
