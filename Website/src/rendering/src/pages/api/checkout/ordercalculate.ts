@@ -19,7 +19,7 @@ export const config = {
  */
 const routeHandler: NextApiHandler<DOrderCalculateResponse> = async (request, response) => {
   const event = request.body as DOrderCheckoutIntegrationEvent;
-  const taxCost = Number((event.OrderWorksheet.Order.Total * 0.07).toFixed(2));
+  const taxCost = Number((event.OrderWorksheet.Order.Total * 0.1).toFixed(2));
 
   return response.status(200).json({
     TaxTotal: taxCost,
