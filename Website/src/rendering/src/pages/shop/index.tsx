@@ -10,7 +10,7 @@ const Shop = (): JSX.Element => {
       <CategoriesList
         title="Welcome to OrderCloud Demo"
         subtitle="Shop Trending Categories:"
-        theme="orange"
+        theme="black"
       />
       <DiscoverWidget rfkId="rfkid_36" />
       <DiscoverWidget rfkId="rfkid_2" />

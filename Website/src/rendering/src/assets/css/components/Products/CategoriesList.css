@@ -1,6 +1,10 @@
 .categories-list {
   @apply text-center py-20;
 
+  &-black {
+    @apply bg-black text-white;
+  }
+
   &-blue {
     @apply bg-blue text-white;
   }
@@ -29,8 +33,17 @@
     @apply text-sm basis-[calc(50%-0.5rem)];
     @apply sm:flex-1;
 
-    img {
-      @apply mb-3;
+    .hover-container {
+      overflow: hidden;
+
+      :hover img {
+        transform: scale(1.2);
+      }
+
+      img {
+        @apply mb-3;
+        transition: transform .5s ease;
+      }
     }
 
     h4 {
