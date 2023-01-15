@@ -93,7 +93,7 @@ const OrderReviewDetails = (): JSX.Element => {
   const onOrderSubmitSuccess = () => {
     dispatchDiscoverOrderConfirmEvent();
     dispatchCdpOrderCheckoutEvent();
-    router?.push(`/shop/checkout/order-summary`);
+    router?.push(`/shop/checkout/order-summary?id=` + order.ID);
   };
 
   const dispatchDiscoverOrderConfirmEvent = () => {
