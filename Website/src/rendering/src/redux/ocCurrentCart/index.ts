@@ -1,4 +1,5 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
+import { format } from 'date-fns';
 import {
   LineItems,
   Me,
@@ -53,7 +54,8 @@ const initialState: OcCurrentOrderState = {
 };
 
 async function createInitialOrder(): Promise<RequiredDeep<DOrder>> {
-  return await Orders.Create<DOrder>('All', { xp: { DeliveryType: DeliveryTypes.Ship } });
+  const orderId = format(new Date(), 'YYYYMMDDHHmmss') + 'AU';
+  return await Orders.Create<DOrder>('All', { ID: orderId, xp: { DeliveryType: DeliveryTypes.Ship } });
 }
 
 export const removeAllPayments = createOcAsyncThunk<undefined, undefined>(
