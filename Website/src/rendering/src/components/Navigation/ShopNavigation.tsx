@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import React, { useRef, useState } from 'react';
 import useOcCurrentCart from '../../hooks/useOcCurrentCart';
+import useOcUser from '../../hooks/useOcUser';
+import useOcAuth from '../../hooks/useOcAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import MiniCart from '../Checkout/MiniCart';
@@ -17,6 +19,10 @@ export type ShopNavigationProps = {
 };
 
 const ShopNavigation = (props: ShopNavigationProps): JSX.Element => {
+  const { user } = useOcUser();
+  const { isAnonymous, isAuthenticated } = useOcAuth();
+  const isUserLoggedIn = !isAnonymous && isAuthenticated;
+
   const { lineItems } = useOcCurrentCart();
 
   const [isMiniCartOpen, setIsMiniCartOpen] = useState(false);
@@ -29,12 +35,26 @@ const ShopNavigation = (props: ShopNavigationProps): JSX.Element => {
   const closeAccountPopup = () => setIsAccountPopupOpen(false);
   ClickOutside([accountPopupRef], closeAccountPopup);
 
+  const anomymousAvatar = !isUserLoggedIn && <FontAwesomeIcon id="user-icon" icon={faUserCircle} />;
+
+  let userInitials = '';
+  if (isUserLoggedIn) {
+    userInitials = user?.FirstName.substring(0, 1) + user?.LastName.substring(0, 1);
+  }
+
+  const loggedInAvatar = isUserLoggedIn && (
+    <>
+      <span className="user-avatar">{userInitials}</span>
+    </>
+  );
+
   const accountPopupActiveClass = isAccountPopupOpen ? 'active' : '';
   const accountPopupOpenClass = isAccountPopupOpen ? 'open' : '';
   const accountMenuItem = isAuthenticationEnabled && (
     <li className={`shop-navigation-menu-item ${accountPopupActiveClass}`} ref={accountPopupRef}>
       <button onClick={() => setIsAccountPopupOpen(!isAccountPopupOpen)}>
-        <FontAwesomeIcon id="user-icon" icon={faUserCircle} />
+        {anomymousAvatar}
+        {loggedInAvatar}
       </button>
       <div className={`account-popup-wrapper ${accountPopupOpenClass}`}>
         <AccountPopup onNavigatingAway={closeAccountPopup} />

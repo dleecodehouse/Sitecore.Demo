@@ -36,7 +36,7 @@ const ProductImage = (props: ProductImageProps): JSX.Element => {
     }
   };
 
-  const productOffer = !props.loading && <span className="product-offer">Best Seller</span>;
+  const productOffer = !props.loading && <span className="product-offer">Most Popular</span>;
 
   const images =
     uniqueImages.length > 0 || props.loading ? (

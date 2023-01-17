@@ -14,7 +14,8 @@ const UserProfile = ({ user }: UserProfileContentProps): JSX.Element => {
         <div>
           Greetings,{' '}
           <span>
-            {!!user.FirstName ? user.FirstName : ''} {!!user.LastName ? user.LastName : ''}
+            {!!user.FirstName ? user?.FirstName.substring(0, 1) : ''}
+            {!!user.LastName ? user?.LastName.substring(0, 1) : ''}
           </span>
         </div>
       </>

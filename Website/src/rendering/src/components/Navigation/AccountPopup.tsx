@@ -48,7 +48,8 @@ const AccountPopup = ({ onNavigatingAway }: AccountPopupProps): JSX.Element => {
           Greetings,{' '}
           <Link href="/account">
             <a>
-              {user?.FirstName} {user?.LastName}
+              {user?.FirstName.substring(0, 1)}
+              {user?.LastName.substring(0, 1)}
             </a>
           </Link>
         </h3>
